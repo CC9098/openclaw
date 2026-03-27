@@ -145,6 +145,9 @@ describe("buildAgentSystemPrompt", () => {
     expect(prompt).toContain("## Skills (mandatory)");
     expect(prompt).toContain("<available_skills>");
     expect(prompt).toContain(
+      "Skills are instructions, not callable tools. Never emit a tool/function call named after a skill unless that exact name also appears in Tool availability.",
+    );
+    expect(prompt).toContain(
       "When a skill drives external API writes, assume rate limits: prefer fewer larger writes, avoid tight one-item loops, serialize bursts when possible, and respect 429/Retry-After.",
     );
   });
@@ -272,7 +275,7 @@ describe("buildAgentSystemPrompt", () => {
     });
 
     expect(prompt).toContain(
-      'For requests like "do this in codex/claude code/gemini", treat it as ACP harness intent',
+      'For requests like "do this in codex/claude code/cursor/gemini" or similar ACP harnesses, treat it as ACP harness intent',
     );
     expect(prompt).toContain(
       'On Discord, default ACP harness requests to thread-bound persistent sessions (`thread: true`, `mode: "session"`)',
@@ -476,6 +479,9 @@ describe("buildAgentSystemPrompt", () => {
     expect(prompt).toContain("## Skills");
     expect(prompt).toContain(
       "- If exactly one skill clearly applies: read its SKILL.md at <location> with `read`, then follow it.",
+    );
+    expect(prompt).toContain(
+      "- Skills are instructions, not callable tools. Never emit a tool/function call named after a skill unless that exact name also appears in Tool availability.",
     );
   });
 
